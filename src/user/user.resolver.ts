@@ -2,49 +2,28 @@ import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { ModuleRef } from '@nestjs/core';
 import { User } from './entities/user.entity';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
-import { AuthService } from '../auth/auth.service';
+import { UserInput } from './dto/user.input';
 import { LogoutResponse } from './dto/logout-response.model';
 import { BlacklistService } from '../auth/blacklist.service';
 import { JwtService } from '@nestjs/jwt';
+import { RegisterResponse } from './dto/register-response.model';
 
 @Resolver(() => User)
 export class UserResolver {
   private jwtService: JwtService;
   constructor(
     private readonly userService: UserService,
-    private authService: AuthService,    
     private moduleRef: ModuleRef,
-    private blacklistService: BlacklistService,  
+    private blacklistService: BlacklistService,
   ) {
     this.jwtService = this.moduleRef.get(JwtService, { strict: false });
   }
 
-  @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    const user = this.userService.create(createUserInput);
-    return user;
-  }
-
-  @Query(() => [User])
-  findAll() {
-    return this.userService.findAll();
-  }
-
-  @Query(() => User)
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.findOne(id);
-  }
-
-  @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.userService.update(updateUserInput.id, updateUserInput);
-  }
-
-  @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.remove(id);
+  @Mutation(() => RegisterResponse)
+  async createUser(@Args('createUserInput') createUserInput: UserInput) {
+    const user = await this.userService.create(createUserInput);
+    delete (user as any).password;
+    return { message: 'user created', user: user };
   }
 
   @Mutation(() => LogoutResponse)

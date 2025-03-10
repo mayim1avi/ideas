@@ -1,0 +1,340 @@
+{
+	"info": {
+		"_postman_id": "4339bcb1-73d2-4090-875d-1b87a47df296",
+		"name": "nest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27343051"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "DNT",
+						"value": "1"
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation {\r\n  login(email: \"testuser\", password: \"secretpassword\") {token}\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Idea",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6ImFkbWluIiwianRpIjoiYWY3NmMyY2QtM2YxZS00Nzc2LWFjYmQtNjE3NzQ4MDI0NjU0IiwiaWF0IjoxNzQxNjA3OTUyLCJleHAiOjE3NDE2OTQzNTJ9.wqmZEcdA7qxwGZnav9GBaaD8idzvWMm1SlKbFYSDTvg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1dmFsQGV4YW1wbGUuY29tIiwic3ViIjoiNjdjZDY0OTQzZWM4ZjAwNzQ1ZmU3NWU5Iiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQxNTQ2ODU4LCJleHAiOjE3NDE1NDY5MTh9.OuZWBomGFxhKeBtT6L-WNm8mHCMy_6bisdNCh-kM6E0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation CreateIdea {\r\n  createIdea(createIdeaInput: {\r\n    title: \"My New Idea\",\r\n    description: \"This is a description of the idea.\"\r\n  }) {\r\n    message\r\n    idea{    \r\n        title\r\n        description\r\n    }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ideas",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6ImFkbWluIiwianRpIjoiYWY3NmMyY2QtM2YxZS00Nzc2LWFjYmQtNjE3NzQ4MDI0NjU0IiwiaWF0IjoxNzQxNjA3OTUyLCJleHAiOjE3NDE2OTQzNTJ9.wqmZEcdA7qxwGZnav9GBaaD8idzvWMm1SlKbFYSDTvg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query GetAllIdeas {\r\n  ideas {\r\n    title\r\n    description\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find idea",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6ImFkbWluIiwianRpIjoiYWY3NmMyY2QtM2YxZS00Nzc2LWFjYmQtNjE3NzQ4MDI0NjU0IiwiaWF0IjoxNzQxNjA3OTUyLCJleHAiOjE3NDE2OTQzNTJ9.wqmZEcdA7qxwGZnav9GBaaD8idzvWMm1SlKbFYSDTvg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  idea(id: \"67ced422dec16416c484b254\") {\r\n    title\r\n    description    \r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete idea",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6ImFkbWluIiwianRpIjoiYWY3NmMyY2QtM2YxZS00Nzc2LWFjYmQtNjE3NzQ4MDI0NjU0IiwiaWF0IjoxNzQxNjA3OTUyLCJleHAiOjE3NDE2OTQzNTJ9.wqmZEcdA7qxwGZnav9GBaaD8idzvWMm1SlKbFYSDTvg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation {\r\n  removeIdea(id: \"67ced422dec16416c484b254\") {\r\n    message\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update idea",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6ImFkbWluIiwianRpIjoiYWY3NmMyY2QtM2YxZS00Nzc2LWFjYmQtNjE3NzQ4MDI0NjU0IiwiaWF0IjoxNzQxNjA3OTUyLCJleHAiOjE3NDE2OTQzNTJ9.wqmZEcdA7qxwGZnav9GBaaD8idzvWMm1SlKbFYSDTvg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation UpdateIdea {\r\n  updateIdea(updateIdeaInput: {\r\n    id: \"67ced422dec16416c484b254\",\r\n    title: \"Updated Idea Title\",\r\n    description: \"This is the updated description for my idea.\"\r\n  }) {\r\n    title\r\n    description    \r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6ImFkbWluIiwianRpIjoiYjZkNTJmMzItMDQxMC00MmY1LTg4NjQtNjY2NGIyNjA5YmNiIiwiaWF0IjoxNzQxNjA2NTYwLCJleHAiOjE3NDE2OTI5NjB9.m3ye3bvL61We0M4MjhzMsYLN95ysQzY6VR_QpDR4FD0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation {\r\n  logout {message}\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation CreateUser {\r\n  createUser(createUserInput: {\r\n    username: \"testuser\",\r\n    password: \"secretpassword\",\r\n    role: \"admin\"\r\n  }) {\r\n    user {\r\n        username\r\n        role        \r\n    }\r\n    message\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

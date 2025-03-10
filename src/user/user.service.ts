@@ -1,6 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { UserInput } from './dto/user.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.schema';
 import { Model } from 'mongoose';
@@ -9,10 +8,10 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private UserModel: Model<User>) {}
-  async create(createUserInput: CreateUserInput) {
-    const existingUser = await this.findByEmail(createUserInput.email);
+  async create(createUserInput: UserInput) {
+    const existingUser = await this.findByUsername(createUserInput.username);
     if (existingUser) {
-      throw new UnauthorizedException('User with this email already exists');
+      throw new UnauthorizedException('User with this username already exists');
     }
 
     // Hash password
@@ -20,7 +19,6 @@ export class UserService {
 
     // Create user
     const newUser = {
-      email: createUserInput.email,
       password: hashedPassword,
       role: createUserInput.role || 'user',
       username: createUserInput.username,
@@ -30,24 +28,9 @@ export class UserService {
     return createdUser.save();
   }
 
-  async findAll(): Promise<User[]> {
-    return this.UserModel.find().exec();
-  }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  async findByEmail(email: string): Promise<User | null> {
-    const user = await this.UserModel.findOne({ email: email }).exec();
+  async findByUsername(username: string): Promise<User | null> {
+    const user = await this.UserModel.findOne({ username: username }).exec();
     return user;
-  }
-
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
   }
 }

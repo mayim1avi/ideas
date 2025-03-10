@@ -10,8 +10,8 @@ export class AuthService {
     private usersService: UserService,
     private jwtService: JwtService,
   ) {}
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.usersService.findByEmail(email);
+  async validateUser(username: string, password: string): Promise<any> {
+    const user = await this.usersService.findByUsername(username);
 
     if (!user) {
       throw new UnauthorizedException('User not found');
@@ -28,13 +28,8 @@ export class AuthService {
   }
 
   login(user: any) {
-    const payload = { email: user.email, role: user.role, jti: uuidv4() };
-    console.log(payload);
+    const payload = { username: user.username, role: user.role, jti: uuidv4() };
     return  this.jwtService.sign(payload);
-  }
-
-  async refreshToken(user: any) {
-    return this.login(user);
   }
 }
 

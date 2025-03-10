@@ -9,10 +9,10 @@ export class AuthResolver {
 
   @Mutation(() => LoginResponse)
   async login(
-    @Args('email') email: string,
+    @Args('username') username: string,
     @Args('password') password: string,
   ) {
-    const validateUser = await this.authService.validateUser(email, password);
+    const validateUser = await this.authService.validateUser(username, password);
     const token = await this.authService.login(validateUser); // Login user
     return { token: token };
   }

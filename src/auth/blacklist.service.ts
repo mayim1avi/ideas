@@ -11,6 +11,7 @@ export class BlacklistService {
         fs.appendFileSync(BLACKLIST_FILE, token + '\n');
     }
 
+
     // Check if a token is blacklisted
     isTokenBlacklisted(token: string): boolean {
         if (!fs.existsSync(BLACKLIST_FILE)) {

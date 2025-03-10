@@ -1,13 +1,11 @@
 import { ObjectType, Field } from '@nestjs/graphql';
+import { Idea } from '../entities/idea.entity';
 
 @ObjectType()
-export class User {
-  @Field({ nullable: true })
-  username: string;
-
+export class IdeaResponse {
   @Field()
-  password: string;
+  message?: string;
 
   @Field({ nullable: true })
-  role: string;
+  idea?: Idea;
 }

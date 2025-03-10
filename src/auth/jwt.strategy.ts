@@ -22,7 +22,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (this.blacklistService.isTokenBlacklisted(payload.jti)) {
       throw new Error('Token is blacklisted');
     }
-    const user = await this.userService.findByEmail(payload.email);
+    const user = await this.userService.findByUsername(payload.username);
     return user;
   }
 }

@@ -1,4 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { Types } from 'mongoose';
 import { CreateIdeaInput } from './dto/create-idea.input';
 import { UpdateIdeaInput } from './dto/update-idea.input';
 import { UserService } from '../user/user.service';
@@ -14,38 +20,54 @@ export class IdeaService {
   ) {}
 
   async create(createIdeaInput: CreateIdeaInput) {
-    const user = await this.usersService.findByEmail(
-      createIdeaInput.user_email,
-    );
-    if (!user) {
-      throw new UnauthorizedException('Access Denied');
-    }
-    const user_id = user['_id'].toString();
-    const newIdea = {
-      user: user_id,
-      title: createIdeaInput.title,
-      description: createIdeaInput.title,
-    };
-
-    console.log('newIdea', newIdea);
-
-    const createdIdea = new this.ideaModel(newIdea);
+    const createdIdea = new this.ideaModel(createIdeaInput);
     return createdIdea.save();
   }
 
   findAll() {
     return this.ideaModel.find().exec();
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} idea`;
+  async findOne(id: Types.ObjectId) {
+    const idea = await this.ideaModel.findById(id).exec();
+    return idea;
   }
 
-  update(id: string, updateIdeaInput: UpdateIdeaInput) {
-    return `This action updates a #${id} idea`;
+  async update(id: string, updateIdeaInput: UpdateIdeaInput) {
+    // Find the idea first to check if it exists
+    const existingIdea = await this.ideaModel.findById(id);
+
+    if (!existingIdea) {
+      throw new NotFoundException(`Idea with ID ${id} not found`);
+    }
+
+    // Update the idea
+    const updatedIdea = await this.ideaModel.findByIdAndUpdate(
+      id,
+      {
+        title: updateIdeaInput.title || existingIdea.title,
+        description: updateIdeaInput.description || existingIdea.description,
+      },
+      { new: true }, // Return the updated document
+    );
+
+    return updatedIdea;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} idea`;
+  async remove(id: Types.ObjectId): Promise<boolean> {
+    // Find the idea
+    const idea = await this.ideaModel.findById(id);
+
+    if (!idea) {
+      throw new NotFoundException(`Idea with ID ${id} not found`);
+    }
+
+    // Delete the idea
+    const result = await this.ideaModel.deleteOne({ _id: id });
+
+    if (result.deletedCount === 0) {
+      throw new InternalServerErrorException('Failed to delete idea');
+    }
+
+    return true;
   }
 }
