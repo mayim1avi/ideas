@@ -21,7 +21,11 @@ export class IdeaService {
 
   async create(createIdeaInput: CreateIdeaInput) {
     const createdIdea = new this.ideaModel(createIdeaInput);
-    return createdIdea.save();
+    await createdIdea.save();
+    const idea = new Idea();
+    idea.title = createdIdea.title;
+    idea.description = createdIdea.description;
+    return idea;
   }
 
   findAll() {
@@ -50,7 +54,14 @@ export class IdeaService {
       { new: true }, // Return the updated document
     );
 
-    return updatedIdea;
+    if (!updatedIdea) {
+      throw new InternalServerErrorException('Failed to update idea');
+    }
+
+    const idea = new Idea();
+    idea.title = updatedIdea.title;
+    idea.description = updatedIdea.description;
+    return idea;
   }
 
   async remove(id: Types.ObjectId): Promise<boolean> {

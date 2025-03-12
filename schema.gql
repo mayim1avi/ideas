@@ -4,7 +4,7 @@
 
 type User {
   username: String
-  password: String!
+  password: String
   role: String
 }
 
@@ -23,7 +23,6 @@ type LoginResponse {
 
 type Idea {
   id: ID!
-  user: ID!
   title: String!
   description: String!
   createdAt: DateTime!

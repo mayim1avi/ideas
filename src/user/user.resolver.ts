@@ -21,8 +21,10 @@ export class UserResolver {
 
   @Mutation(() => RegisterResponse)
   async createUser(@Args('createUserInput') createUserInput: UserInput) {
-    const user = await this.userService.create(createUserInput);
-    delete (user as any).password;
+    const userModel = await this.userService.create(createUserInput);
+    const user = new User();
+    user.username = userModel.username;
+    user.role = userModel.role;
     return { message: 'user created', user: user };
   }
 
@@ -33,4 +35,6 @@ export class UserResolver {
     this.blacklistService.addToBlacklist(decoded.jti);
     return { message: 'Logged out' };
   }
+
+  
 }

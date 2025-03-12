@@ -16,7 +16,6 @@ import { IdeaModule } from './idea/idea.module';
       playground: true,
       autoSchemaFile: 'schema.gql',
     }),
-    // MongooseModule.forRoot('mongodb://localhost:27017/nestjs'),
     MongooseModule.forRoot('mongodb://mongodb:27017/nest-app'),
     UserModule,
     AuthModule,

@@ -5,7 +5,7 @@ export class User {
   @Field({ nullable: true })
   username: string;
 
-  @Field()
+  @Field({nullable: true})
   password: string;
 
   @Field({ nullable: true })

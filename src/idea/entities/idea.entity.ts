@@ -8,10 +8,6 @@ export class Idea {
   id: string;
 
   @Column()
-  @Field(() => ID)
-  user: string;
-
-  @Column()
   @Field()
   title: string;
 
